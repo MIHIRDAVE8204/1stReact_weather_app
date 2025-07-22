@@ -16,7 +16,13 @@ function Home() {
         console.log(search);
         axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${search}&appid=34c2d2fd34c54d461b91fc0fbcd62155&units=metric`)
             .then((res) => {
-                setresult(res);
+                // Validate required data fields
+                if (res && res.data && res.data.main && res.data.wind && res.data.clouds) {
+                    setresult(res);
+                } else {
+                    console.warn('Incomplete data received from API');
+                    setresult(null);
+                }
                 console.log(res)
             })
             .catch((error) => {
